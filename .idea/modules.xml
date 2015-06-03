@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/usingMongoDBJavaDriver.iml" filepath="$PROJECT_DIR$/usingMongoDBJavaDriver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/driverMongoDB.iml" filepath="$PROJECT_DIR$/driverMongoDB.iml" />
     </modules>
   </component>
 </project>
