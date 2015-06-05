@@ -1,6 +1,7 @@
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
+import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
@@ -27,27 +28,39 @@ public class Main {
          */
 
         Integer i = 0;
-        for (i =0; i<1000; i++) {
-            ServerAddress hostPort = new ServerAddress("conectores02", 27017);
+        long iterations= 1000;
+        long TIn = System.currentTimeMillis();
+        for (i =0; i<iterations; i++) {
 
-            // MongoClientOptions options = new MongoClientOptions.Builder().socketFactory(SSLSocketFactory.getDefault()).build();
-            MongoClient mongoClient = new MongoClient(hostPort);
+            MongoClient mongoClient = new MongoClient("conectores03", 27017);
 
-            MongoDatabase database = mongoClient.getDatabase("local");
-            MongoCollection<Document> collection = database.getCollection("slaves");
-            System.out.println("Número de elementos en la collección: " + collection.count());
+            MongoDatabase database = mongoClient.getDatabase("casbahTest");
+            MongoCollection<Document> collection = database.getCollection("test");
+            //System.out.println("Número de elementos en la collección: " + collection.count());
 
-            MongoCursor<Document> cursor = collection.find().iterator();
-            try {
+            FindIterable<Document> documents = collection.find();
+            MongoCursor<Document> cursor = documents.iterator();
+//            try {
+//                while (cursor.hasNext()) {
+//                    System.out.println(cursor.next().toJson());
+//                }
+//            } finally {
+//                cursor.close();
+//            }
+
+
                 while (cursor.hasNext()) {
                     System.out.println(cursor.next().toJson());
                 }
-            } finally {
-                cursor.close();
-            }
 
+                //cursor.close();
             mongoClient.close();
-
         }
+        long TFin= System.currentTimeMillis();
+        long Texecution = (TFin-TIn);
+        long Titeration =Texecution /iterations;
+
+        System.out.println(" Tiempo total con java driver en JAVA: "+Texecution+ " Tiempo por iteracion: "+Titeration);
+
     }
 }
